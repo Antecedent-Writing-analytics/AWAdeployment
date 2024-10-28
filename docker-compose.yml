@@ -1,18 +1,18 @@
 services:
   ANTECEDENT:
-    container_name: antecedent
+    container_name: quay.io/antecedent.writing.analytics/antecedent
     depends_on:
     - mongodb
     env_file:
     - ./vars/.antecedent.env
     environment:
       Antecedent.app.Email.From: a@a.a
-      Antecedent.app.jwtSecret: NvRvnn2LCqcbsqsG1b49OnNGEO6Ya9vDipd5WFIOTvv69M5jMy7MpF9KQqi0LFfzBeNxaBQDwdLoNS1EoQXRGE9AvKHMVpUs
-      Antecedent.app.ui: https://app.py/
-      Antecedent.app.url: https://app.py/
-      spring.data.mongodb.password: qfEM1qTGXc8e
+      Antecedent.app.jwtSecret: eG3KP8k2hO6Zre7cRY4cOehiRqo7yW9w6DUdOw2ht3rjWnWYXgyUkgKiSwo8JiS3DV9vkc6jx9Yd5SsuRmH3HoSJ16Kn0Gvl
+      Antecedent.app.ui: https://ts.asas.sa/
+      Antecedent.app.url: https://ts.asas.sa/
+      spring.data.mongodb.password: jONkuuFL6L82
       spring.mail.host: smtp.gmail.com
-      spring.mail.password: password
+      spring.mail.password: asdaskdepodada
       spring.mail.port: 587
       spring.mail.username: a@a.a
     image: antecedent
@@ -20,29 +20,29 @@ services:
     - 8080:8080
     restart: always
   AWAUI:
-    container_name: awaui
+    container_name: quay.io/antecedent.writing.analytics/awaui
     env_file:
     - ./vars/.awaui.env
     environment:
-      REACT_APP_ADMIN_EDITOR_URL: https://app.py/browser/77a0aab/cool.html?WOPISrc=http://app.py/admin/wopi/files/
-      REACT_APP_API_URL: http://app.py
-      REACT_APP_COLLABORA_HOST: https://app.py/browser/77a0aab/cool.html?
-      REACT_APP_EDITOR_URL: https://app.py/browser/77a0aab/cool.html?WOPISrc=http://app.py/wopi/files/
-      REACT_APP_EDU_EDITOR_URL: https://app.py/browser/77a0aab/cool.html?WOPISrc=http://app.py/shadow/wopi/files/
-      REACT_APP_INS_EDITOR_URL: https://app.py/browser/77a0aab/cool.html?WOPISrc=http://app.py/wopi/files/
-      REACT_APP_PEERREVIEW: https://app.py/browser/77a0aab/cool.html?WOPISrc=http://app.py/review/wopi/files/
+      REACT_APP_ADMIN_EDITOR_URL: https://ts.asas.sa/browser/77a0aab/cool.html?WOPISrc=http://ts.asas.sa/admin/wopi/files/
+      REACT_APP_API_URL: http://ts.asas.sa
+      REACT_APP_COLLABORA_HOST: https://ts.asas.sa/browser/77a0aab/cool.html?
+      REACT_APP_EDITOR_URL: https://ts.asas.sa/browser/77a0aab/cool.html?WOPISrc=http://ts.asas.sa/wopi/files/
+      REACT_APP_EDU_EDITOR_URL: https://ts.asas.sa/browser/77a0aab/cool.html?WOPISrc=http://ts.asas.sa/shadow/wopi/files/
+      REACT_APP_INS_EDITOR_URL: https://ts.asas.sa/browser/77a0aab/cool.html?WOPISrc=http://ts.asas.sa/wopi/files/
+      REACT_APP_PEERREVIEW: https://ts.asas.sa/browser/77a0aab/cool.html?WOPISrc=http://ts.asas.sa/review/wopi/files/
     image: awaui
     ports:
     - 3000:3000
     restart: always
   AWAWP:
-    container_name: awawp
+    container_name: quay.io/antecedent.writing.analytics/awawp
     depends_on:
     - mongodb
     env_file:
     - ./vars/.awawp.env
     environment:
-      MONGO_SECRET: qfEM1qTGXc8e
+      MONGO_SECRET: jONkuuFL6L82
     image: awawp
     restart: always
   COLLABORA:
@@ -50,8 +50,8 @@ services:
     env_file:
     - ./vars/.collabora.env
     environment:
-      domain: https://app.py
-      server_name: app.py
+      domain: https://ts.asas.sa
+      server_name: ts.asas.sa
     image: collabora/code
     ports:
     - 9980:9980
@@ -59,8 +59,8 @@ services:
     volumes:
     - ./python:/opt/collaboraoffice/share/Scripts/python
   certbot:
-    command: certonly --webroot --webroot-path=/var/www/certbot --email emai@app.py
-      --agree-tos --no-eff-email -d app.py
+    command: certonly --webroot --webroot-path=/var/www/certbot --email a@a.s --agree-tos
+      --no-eff-email -d ts.asas.sa
     container_name: certbot
     image: certbot/certbot
     volumes:
@@ -70,7 +70,7 @@ services:
     command: mongod --wiredTigerCacheSizeGB 2
     container_name: mongodb
     environment:
-      MONGO_INITDB_ROOT_PASSWORD: qfEM1qTGXc8e
+      MONGO_INITDB_ROOT_PASSWORD: jONkuuFL6L82
       MONGO_INITDB_ROOT_USERNAME: root
     image: mongo
     restart: always
@@ -91,7 +91,6 @@ services:
     - ./nginx-conf/:/etc/nginx/conf.d
     - certbot-etc:/etc/letsencrypt
     - certbot-www:/var/www/certbot
-version: '3'
 volumes:
   certbot-etc:
     driver: local
