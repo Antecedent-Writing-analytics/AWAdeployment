@@ -5,7 +5,6 @@ import xml.etree.ElementTree as ET
 import time
 import subprocess
 import os
-
 import secrets
 import string
 
@@ -419,7 +418,7 @@ class ConfigAntecedent:
 
     def _set_nginx(self, step=1):
         destination = "./nginx-conf/ngconfig.conf"
-        source = "./webconfigs/step2.conf"
+        source = "./webconfigs/step3.conf"
         if step == 1:
             source = "./webconfigs/step1.conf"
         with open(source, "rb") as src_file:
