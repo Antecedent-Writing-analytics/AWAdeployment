@@ -23,7 +23,7 @@ class ConfigAntecedent:
         self.ssl_email = ""
         self.discovery_url = "http://localhost/hosting/discovery"
         self.config = {
-            "version": "3",
+           
             "services": {},
             "volumes": {
                 "certbot-etc": {"driver": "local"},
