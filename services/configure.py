@@ -302,7 +302,7 @@ class ConfigAntecedent:
                 "command": f"mongod --wiredTigerCacheSizeGB {self.db_cache_size}",
             },
             "AWAWP": {
-                "container_name": "awawp",
+                "container_name": "quay.io/antecedent.writing.analytics/awawp",
                 "image": "awawp",
                 "restart": "always",
                 "env_file": ["./vars/.awawp.env"],
@@ -312,7 +312,7 @@ class ConfigAntecedent:
                 },
             },
             "ANTECEDENT": {
-                "container_name": "antecedent",
+                "container_name": "quay.io/antecedent.writing.analytics/antecedent",
                 "image": "antecedent",
                 "restart": "always",
                 "ports": ["8080:8080"],
@@ -331,7 +331,7 @@ class ConfigAntecedent:
                 "depends_on": ["mongodb"],
             },
             "AWAUI": {
-                "container_name": "awaui",
+                "container_name": "quay.io/antecedent.writing.analytics/awaui",
                 "image": "awaui",
                 "restart": "always",
                 "ports": ["3000:3000"],
