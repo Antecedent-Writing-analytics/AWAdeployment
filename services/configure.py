@@ -262,7 +262,7 @@ class ConfigAntecedent:
                 "image": "nginx:1.15.12-alpine",
                 "container_name": "webserver",
                 "restart": "unless-stopped",
-                "ports": ["80:80"],
+                "ports": ["80:80", "443:443"],
                 "volumes": [
                     "./nginx-conf/:/etc/nginx/conf.d",
                     "certbot-etc:/etc/letsencrypt",
@@ -418,7 +418,7 @@ class ConfigAntecedent:
 
     def _set_nginx(self, step=1):
         destination = "./nginx-conf/ngconfig.conf"
-        source = "./webconfigs/step2.conf"
+        source = "./webconfigs/step3.conf"
         if step == 1:
             source = "./webconfigs/step1.conf"
         with open(source, "rb") as src_file:

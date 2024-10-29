@@ -51,3 +51,4 @@ misc/
 
 /mongo-data/
 docker-compose.yaml
+docker-compose.yml
