@@ -337,7 +337,7 @@ class ConfigAntecedent:
                 "ports": ["3000:3000"],
                 "env_file": ["./vars/.awaui.env"],
                 "environment": {
-                    "REACT_APP_API_URL": f"http://{self.hostname}",
+                    "REACT_APP_API_URL": f"https://{self.hostname}",
                     "REACT_APP_COLLABORA_HOST": self.REACT_APP_COLLABORA_HOST,
                     "REACT_APP_EDITOR_URL": f"{self.REACT_APP_COLLABORA_HOST}WOPISrc=http://{self.hostname}/wopi/files/",
                     "REACT_APP_INS_EDITOR_URL": f"{self.REACT_APP_COLLABORA_HOST}WOPISrc=http://{self.hostname}/wopi/files/",
