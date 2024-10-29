@@ -23,7 +23,6 @@ class ConfigAntecedent:
         self.ssl_email = ""
         self.discovery_url = "http://localhost/hosting/discovery"
         self.config = {
-           
             "services": {},
             "volumes": {
                 "certbot-etc": {"driver": "local"},
@@ -346,6 +345,15 @@ class ConfigAntecedent:
                     "REACT_APP_PEERREVIEW": f"{self.REACT_APP_COLLABORA_HOST}WOPISrc=http://{self.hostname}/review/wopi/files/",
                 },
             },
+            "CONVERTER": {
+                "container_name": "converter",
+                "image": "quay.io/antecedent.writing.analytics/converter",
+                "restart": "always",
+                "env_file": ["./vars/.converter.env"],
+                "environment": {
+                    "spring.data.mongodb.password": self.db_password,
+                },
+            },
             "spellcheck": {
                 "container_name": "spellcheck",
                 "image": "collabora/languagetool",
@@ -440,7 +448,7 @@ class ConfigAntecedent:
         command = ["docker", "compose", "restart", "webserver", "--no-deps"]
         result = subprocess.run(command)
 
-                # Print the output
+        # Print the output
         print("Docker restart Output:")
         print(result.stdout)
 
