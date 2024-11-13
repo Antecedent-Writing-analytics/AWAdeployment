@@ -112,6 +112,17 @@ class ConfigAntecedent:
             r"server_name\s+[\S]+;", f"server_name {self.hostname};", config
         )
 
+        updated_config = re.sub(
+            r"ssl_certificate\s+/etc/letsencrypt/live/[\S]+/fullchain.pem;",
+            f"ssl_certificate /etc/letsencrypt/live/{self.hostname}/fullchain.pem;",
+            updated_config,
+        )
+        updated_config = re.sub(
+            r"ssl_certificate_key\s+/etc/letsencrypt/live/[\S]+/privkey.pem;",
+            f"ssl_certificate_key /etc/letsencrypt/live/{self.hostname}/privkey.pem;",
+            updated_config,
+        )
+
         # Write the updated config back to the file
         with open("nginx-conf/ngconfig.conf", "w") as file:
             file.write(updated_config)
