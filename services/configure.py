@@ -349,11 +349,11 @@ class ConfigAntecedent:
                 "environment": {
                     "REACT_APP_API_URL": f"https://{self.hostname}",
                     "REACT_APP_COLLABORA_HOST": self.REACT_APP_COLLABORA_HOST,
-                    "REACT_APP_EDITOR_URL": f"{self.REACT_APP_COLLABORA_HOST}WOPISrc=http://{self.hostname}/wopi/files/",
-                    "REACT_APP_INS_EDITOR_URL": f"{self.REACT_APP_COLLABORA_HOST}WOPISrc=http://{self.hostname}/wopi/files/",
-                    "REACT_APP_EDU_EDITOR_URL": f"{self.REACT_APP_COLLABORA_HOST}WOPISrc=http://{self.hostname}/shadow/wopi/files/",
-                    "REACT_APP_ADMIN_EDITOR_URL": f"{self.REACT_APP_COLLABORA_HOST}WOPISrc=http://{self.hostname}/admin/wopi/files/",
-                    "REACT_APP_PEERREVIEW": f"{self.REACT_APP_COLLABORA_HOST}WOPISrc=http://{self.hostname}/review/wopi/files/",
+                    "REACT_APP_EDITOR_URL": f"{self.REACT_APP_COLLABORA_HOST}WOPISrc=https://{self.hostname}/wopi/files/",
+                    "REACT_APP_INS_EDITOR_URL": f"{self.REACT_APP_COLLABORA_HOST}WOPISrc=https://{self.hostname}/wopi/files/",
+                    "REACT_APP_EDU_EDITOR_URL": f"{self.REACT_APP_COLLABORA_HOST}WOPISrc=https://{self.hostname}/shadow/wopi/files/",
+                    "REACT_APP_ADMIN_EDITOR_URL": f"{self.REACT_APP_COLLABORA_HOST}WOPISrc=https://{self.hostname}/admin/wopi/files/",
+                    "REACT_APP_PEERREVIEW": f"{self.REACT_APP_COLLABORA_HOST}WOPISrc=https://{self.hostname}/review/wopi/files/",
                 },
             },
             "CONVERTER": {
