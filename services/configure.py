@@ -313,7 +313,7 @@ class ConfigAntecedent:
             },
             "AWAWP": {
                 "container_name": "awawp",
-                "image": "quay.io/antecedent.writing.analytics/awawp",
+                "image": "quay.io/antecedent.writing.analytics/awawp:LT-latest",
                 "restart": "always",
                 "env_file": ["./vars/.awawp.env"],
                 "depends_on": ["mongodb"],
@@ -323,7 +323,7 @@ class ConfigAntecedent:
             },
             "ANTECEDENT": {
                 "container_name": "antecedent",
-                "image": "quay.io/antecedent.writing.analytics/antecedent",
+                "image": "quay.io/antecedent.writing.analytics/antecedent:LT-latest",
                 "restart": "always",
                 "ports": ["8080:8080"],
                 "env_file": ["./vars/.antecedent.env"],
@@ -342,7 +342,7 @@ class ConfigAntecedent:
             },
             "AWAUI": {
                 "container_name": "awaui",
-                "image": "quay.io/antecedent.writing.analytics/awaui",
+                "image": "quay.io/antecedent.writing.analytics/awaui:LT-latest",
                 "restart": "always",
                 "ports": ["3000:3000"],
                 "env_file": ["./vars/.awaui.env"],
@@ -358,7 +358,7 @@ class ConfigAntecedent:
             },
             "CONVERTER": {
                 "container_name": "converter",
-                "image": "quay.io/antecedent.writing.analytics/converter",
+                "image": "quay.io/antecedent.writing.analytics/converter:LT-latest",
                 "restart": "always",
                 "env_file": ["./vars/.converter.env"],
                 "environment": {
