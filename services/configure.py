@@ -490,7 +490,7 @@ class ConfigAntecedent:
         self.__save_step_two()
 
         self.run_docker_compose()
-        time.sleep(10)
+        time.sleep(30)
         self.__db_restore()
-        time.sleep(10)
+        time.sleep(30)
         self.__rest_webserver()
