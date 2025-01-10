@@ -323,7 +323,7 @@ class ConfigAntecedent:
             },
             "ANTECEDENT": {
                 "container_name": "antecedent",
-                "image": "quay.io/antecedent.writing.analytics/antecedent:LT-latest",
+                "image": "quay.io/antecedent.writing.analytics/antecedent:lt-dev",
                 "restart": "always",
                 "ports": ["8080:8080"],
                 "env_file": ["./vars/.antecedent.env"],
@@ -358,7 +358,7 @@ class ConfigAntecedent:
             },
             "CONVERTER": {
                 "container_name": "converter",
-                "image": "quay.io/antecedent.writing.analytics/converter:LT-latest",
+                "image": "quay.io/antecedent.writing.analytics/converter:lt-dev",
                 "restart": "always",
                 "env_file": ["./vars/.converter.env"],
                 "environment": {
