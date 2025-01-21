@@ -342,7 +342,7 @@ class ConfigAntecedent:
             },
             "AWAUI": {
                 "container_name": "awaui",
-                "image": "quay.io/antecedent.writing.analytics/awaui:LT-latest",
+                "image": "quay.io/antecedent.writing.analytics/awaui:lt-dev",
                 "restart": "always",
                 "ports": ["3000:3000"],
                 "env_file": ["./vars/.awaui.env"],
