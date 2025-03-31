@@ -1,82 +1,78 @@
 services:
   ANTECEDENT:
-    container_name: quay.io/antecedent.writing.analytics/antecedent
-    depends_on:
-    - mongodb
+    container_name: antecedent
     env_file:
     - ./vars/.antecedent.env
     environment:
-      Antecedent.app.Email.From: a@a.a
-      Antecedent.app.jwtSecret: eG3KP8k2hO6Zre7cRY4cOehiRqo7yW9w6DUdOw2ht3rjWnWYXgyUkgKiSwo8JiS3DV9vkc6jx9Yd5SsuRmH3HoSJ16Kn0Gvl
-      Antecedent.app.ui: https://ts.asas.sa/
-      Antecedent.app.url: https://ts.asas.sa/
-      spring.data.mongodb.password: jONkuuFL6L82
+      Antecedent.app.Email.From: yashar.ghaemi@antecedent.us
+      Antecedent.app.jwtSecret: 79Vca64ZShmOsibba649kMrwvjqQYGj0WT2h13NK6B3p6iHLUr1JbzqzT0hm8Y7YUAiAq8M8ApkzqzyLM4gPXXXHaq1UwfE0
+      Antecedent.app.ui: https://local.antecedentwriting.com/
+      Antecedent.app.url: https://local.antecedentwriting.com/
+      
       spring.mail.host: smtp.gmail.com
-      spring.mail.password: asdaskdepodada
+      spring.mail.password: niauqkfyonmksgie
       spring.mail.port: 587
-      spring.mail.username: a@a.a
-    image: antecedent
+      spring.mail.username: yashar.ghaemi@antecedent.us
+    image: quay.io/antecedent.writing.analytics/antecedent:LT-latest
     ports:
     - 8080:8080
     restart: always
   AWAUI:
-    container_name: quay.io/antecedent.writing.analytics/awaui
+    container_name: awaui
     env_file:
     - ./vars/.awaui.env
     environment:
-      REACT_APP_ADMIN_EDITOR_URL: https://ts.asas.sa/browser/77a0aab/cool.html?WOPISrc=http://ts.asas.sa/admin/wopi/files/
-      REACT_APP_API_URL: http://ts.asas.sa
-      REACT_APP_COLLABORA_HOST: https://ts.asas.sa/browser/77a0aab/cool.html?
-      REACT_APP_EDITOR_URL: https://ts.asas.sa/browser/77a0aab/cool.html?WOPISrc=http://ts.asas.sa/wopi/files/
-      REACT_APP_EDU_EDITOR_URL: https://ts.asas.sa/browser/77a0aab/cool.html?WOPISrc=http://ts.asas.sa/shadow/wopi/files/
-      REACT_APP_INS_EDITOR_URL: https://ts.asas.sa/browser/77a0aab/cool.html?WOPISrc=http://ts.asas.sa/wopi/files/
-      REACT_APP_PEERREVIEW: https://ts.asas.sa/browser/77a0aab/cool.html?WOPISrc=http://ts.asas.sa/review/wopi/files/
-    image: awaui
+      REACT_APP_ADMIN_EDITOR_URL: https://local.antecedentwriting.com/browser/b6712dc6c4/cool.html?WOPISrc=https://local.antecedentwriting.com/admin/wopi/files/
+      REACT_APP_API_URL: https://local.antecedentwriting.com
+      REACT_APP_COLLABORA_HOST: https://local.antecedentwriting.com/browser/b6712dc6c4/cool.html?
+      REACT_APP_EDITOR_URL: https://local.antecedentwriting.com/browser/b6712dc6c4/cool.html?WOPISrc=https://local.antecedentwriting.com/wopi/files/
+      REACT_APP_EDU_EDITOR_URL: https://local.antecedentwriting.com/browser/b6712dc6c4/cool.html?WOPISrc=https://local.antecedentwriting.com/shadow/wopi/files/
+      REACT_APP_INS_EDITOR_URL: https://local.antecedentwriting.com/browser/b6712dc6c4/cool.html?WOPISrc=https://local.antecedentwriting.com/wopi/files/
+      REACT_APP_PEERREVIEW: https://local.antecedentwriting.com/browser/b6712dc6c4/cool.html?WOPISrc=https://local.antecedentwriting.com/review/wopi/files/
+    image: quay.io/antecedent.writing.analytics/awaui:LT-latest
     ports:
     - 3000:3000
     restart: always
   AWAWP:
-    container_name: quay.io/antecedent.writing.analytics/awawp
-    depends_on:
-    - mongodb
+    container_name: awawp
+    
     env_file:
     - ./vars/.awawp.env
+    ports:
+    - 8000:8000
     environment:
-      MONGO_SECRET: jONkuuFL6L82
-    image: awawp
+      MONGO_SECRET: S3cretP6ss
+    image: quay.io/antecedent.writing.analytics/awawp:LT-latest
     restart: always
   COLLABORA:
     container_name: collabora
     env_file:
     - ./vars/.collabora.env
     environment:
-      domain: https://ts.asas.sa
-      server_name: ts.asas.sa
-    image: collabora/code
+      domain: https://local.antecedentwriting.com
+      server_name: local.antecedentwriting.com
+    image: collabora/code:24.04.13.1.1
     ports:
     - 9980:9980
     restart: always
     volumes:
     - ./python:/opt/collaboraoffice/share/Scripts/python
+  CONVERTER:
+    container_name: converter
+    env_file:
+    - ./vars/.converter.env
+
+    image: quay.io/antecedent.writing.analytics/converter:LT-latest
+    restart: always
   certbot:
-    command: certonly --webroot --webroot-path=/var/www/certbot --email a@a.s --agree-tos
-      --no-eff-email -d ts.asas.sa
+    command: certonly --webroot --webroot-path=/var/www/certbot --email yashar.ghaemi@antecedent.us
+      --agree-tos --no-eff-email -d local.antecedentwriting.com
     container_name: certbot
     image: certbot/certbot
     volumes:
     - certbot-etc:/etc/letsencrypt
     - certbot-www:/var/www/certbot
-  mongodb:
-    command: mongod --wiredTigerCacheSizeGB 2
-    container_name: mongodb
-    environment:
-      MONGO_INITDB_ROOT_PASSWORD: jONkuuFL6L82
-      MONGO_INITDB_ROOT_USERNAME: root
-    image: mongo
-    restart: always
-    volumes:
-    - ./mongo-data:/data/db
-    - ./backups:/backups
+  
   spellcheck:
     container_name: spellcheck
     image: collabora/languagetool
@@ -86,6 +82,7 @@ services:
     image: nginx:1.15.12-alpine
     ports:
     - 80:80
+    - 443:443
     restart: unless-stopped
     volumes:
     - ./nginx-conf/:/etc/nginx/conf.d
