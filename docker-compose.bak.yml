@@ -8,11 +8,12 @@ services:
       Antecedent.app.jwtSecret: 79Vca64ZShmOsibba649kMrwvjqQYGj0WT2h13NK6B3p6iHLUr1JbzqzT0hm8Y7YUAiAq8M8ApkzqzyLM4gPXXXHaq1UwfE0
       Antecedent.app.ui: https://local.antecedentwriting.com/
       Antecedent.app.url: https://local.antecedentwriting.com/
+      
       spring.mail.host: smtp.gmail.com
-      spring.mail.password: niauqkfyonmksgie
+      spring.mail.password: asd
       spring.mail.port: 587
       spring.mail.username: yashar.ghaemi@antecedent.us
-    image: quay.io/antecedent.writing.analytics/antecedent:lt-dev
+    image: quay.io/antecedent.writing.analytics/antecedent:LT-latest
     ports:
     - 8080:8080
     restart: always
@@ -28,17 +29,19 @@ services:
       REACT_APP_EDU_EDITOR_URL: https://local.antecedentwriting.com/browser/b6712dc6c4/cool.html?WOPISrc=https://local.antecedentwriting.com/shadow/wopi/files/
       REACT_APP_INS_EDITOR_URL: https://local.antecedentwriting.com/browser/b6712dc6c4/cool.html?WOPISrc=https://local.antecedentwriting.com/wopi/files/
       REACT_APP_PEERREVIEW: https://local.antecedentwriting.com/browser/b6712dc6c4/cool.html?WOPISrc=https://local.antecedentwriting.com/review/wopi/files/
-      REACT_APP_ADDITION: https://local.antecedentwriting.com/browser/b6712dc6c4/cool.html?WOPISrc=https://local.antecedentwriting.com/addition/wopi/files/
-    image: quay.io/antecedent.writing.analytics/awaui:lt-dev
+    image: quay.io/antecedent.writing.analytics/awaui:LT-latest
     ports:
     - 3000:3000
     restart: always
   AWAWP:
     container_name: awawp
+    
     env_file:
     - ./vars/.awawp.env
+    ports:
+    - 8000:8000
     environment:
-      MONGO_SECRET: NoNeedToHaveSecretHere
+      MONGO_SECRET: S3cretP6ss
     image: quay.io/antecedent.writing.analytics/awawp:LT-latest
     restart: always
   COLLABORA:
@@ -58,7 +61,8 @@ services:
     container_name: converter
     env_file:
     - ./vars/.converter.env
-    image: quay.io/antecedent.writing.analytics/converter:lt-dev
+
+    image: quay.io/antecedent.writing.analytics/converter:LT-latest
     restart: always
   certbot:
     command: certonly --webroot --webroot-path=/var/www/certbot --email yashar.ghaemi@antecedent.us
@@ -68,6 +72,7 @@ services:
     volumes:
     - certbot-etc:/etc/letsencrypt
     - certbot-www:/var/www/certbot
+  
   spellcheck:
     container_name: spellcheck
     image: collabora/languagetool

@@ -143,21 +143,6 @@ class ConfigAntecedent:
 
         print(f"Hostname set to: {self.hostname}")
 
-    def __set_db_password(self):
-        user_input = input(
-            "Enter the database password (leave blank to generate one): "
-        )
-
-        # If the user input is blank, generate a random password
-        if not user_input:
-            characters = string.ascii_letters + string.digits
-            self.db_password = "".join(
-                secrets.choice(characters) for _ in range(12)
-            )  # 12-character password
-            print(f"Generated random password: {self.db_password}")
-        else:
-            self.db_password = user_input
-            print("Database password set.")
 
     def __set_jwt_secret(self):
         user_input = self.jwt_secret = input(
@@ -300,35 +285,24 @@ class ConfigAntecedent:
                 "env_file": ["./vars/.collabora.env"],
                 "volumes": ["./python:/opt/collaboraoffice/share/Scripts/python"],
             },
-            "mongodb": {
-                "container_name": "mongodb",
-                "image": "mongo",
-                "restart": "always",
-                "environment": {
-                    "MONGO_INITDB_ROOT_USERNAME": "root",
-                    "MONGO_INITDB_ROOT_PASSWORD": self.db_password,
-                },
-                "volumes": ["./mongo-data:/data/db", "./backups:/backups"],
-                "command": f"mongod --wiredTigerCacheSizeGB {self.db_cache_size}",
-            },
+
             "AWAWP": {
                 "container_name": "awawp",
                 "image": "quay.io/antecedent.writing.analytics/awawp:LT-latest",
                 "restart": "always",
                 "env_file": ["./vars/.awawp.env"],
-                "depends_on": ["mongodb"],
                 "environment": {
-                    "MONGO_SECRET": self.db_password,
+                    "MONGO_SECRET": "NoNeedToHaveSecretHere",
                 },
             },
             "ANTECEDENT": {
                 "container_name": "antecedent",
-                "image": "quay.io/antecedent.writing.analytics/antecedent:lt-dev",
+                "image": "quay.io/antecedent.writing.analytics/antecedent:LT-latest",
                 "restart": "always",
                 "ports": ["8080:8080"],
                 "env_file": ["./vars/.antecedent.env"],
                 "environment": {
-                    "spring.data.mongodb.password": self.db_password,
+                   
                     "Antecedent.app.jwtSecret": self.jwt_secret,
                     "spring.mail.host": self.smtp_host,
                     "spring.mail.port": self.smtp_port,
@@ -338,11 +312,10 @@ class ConfigAntecedent:
                     "Antecedent.app.ui": f"https://{self.hostname}/",
                     "Antecedent.app.url": f"https://{self.hostname}/",
                 },
-                "depends_on": ["mongodb"],
             },
             "AWAUI": {
                 "container_name": "awaui",
-                "image": "quay.io/antecedent.writing.analytics/awaui:lt-dev",
+                "image": "quay.io/antecedent.writing.analytics/awaui:LT-latest",
                 "restart": "always",
                 "ports": ["3000:3000"],
                 "env_file": ["./vars/.awaui.env"],
@@ -358,12 +331,10 @@ class ConfigAntecedent:
             },
             "CONVERTER": {
                 "container_name": "converter",
-                "image": "quay.io/antecedent.writing.analytics/converter:lt-dev",
+                "image": "quay.io/antecedent.writing.analytics/converter:LT-latest",
                 "restart": "always",
                 "env_file": ["./vars/.converter.env"],
-                "environment": {
-                    "spring.data.mongodb.password": self.db_password,
-                },
+                
             },
             "spellcheck": {
                 "container_name": "spellcheck",
@@ -378,62 +349,7 @@ class ConfigAntecedent:
             yaml.dump(self.config, file, default_flow_style=False)
         print("docker-compose.yml has been created!")
 
-    def __add_volume_directory(self):
-
-        folder_path = "./mongo-data"
-        if not os.path.exists(folder_path):
-            os.makedirs(folder_path)
-            print(f"Folder '{folder_path}' created.")
-            self.volume_created = True
-        else:
-            print(f"Folder '{folder_path}' already exists.")
-
-    def __ask_db_cache_size(self):
-        while True:
-            cache_size = input(
-                "Enter the database cache size (GB, leave blank for default 2GB): "
-            )
-            if not cache_size:
-                return
-
-            try:
-                # Try to convert the input to a float
-                self.db_cache_size = float(cache_size)
-                return
-            except ValueError:
-                print("Invalid input. Please enter a numeric value (e.g., 2 or 2.5).")
-
-    def __db_restore(self):
-        try:
-            # Run the docker compose up -d command
-            if self.volume_created:
-                command = [
-                    "docker",
-                    "compose",
-                    "exec",
-                    "-it",
-                    "mongodb",
-                    "mongorestore",
-                    "-u",
-                    "root",
-                    "-p",
-                    self.db_password,
-                    "--authenticationDatabase=admin",
-                    "--gzip",
-                    "--archive=./backups/initdata.gz",
-                ]
-
-                # Run the command
-                result = subprocess.run(command)
-
-                # Print the output
-                print("Docker Compose Output:")
-                print(result.stdout)
-
-        except subprocess.CalledProcessError as e:
-            # Print the error if the command fails
-            print("An error occurred while running docker compose up:")
-            print(e.stderr)
+    
 
     def _set_nginx(self, step=1):
         destination = "./nginx-conf/ngconfig.conf"
@@ -477,13 +393,13 @@ class ConfigAntecedent:
         self.run_docker_compose()
 
         self.REACT_APP_COLLABORA_HOST = self.get_first_urlsrc()
-        self.__set_db_password()
+
         self.__set_jwt_secret()
         # create step one docker file
         self._set_nginx(2)
         self.__update_server_name()
-        self.__add_volume_directory()
-        self.__ask_db_cache_size()
+        # self.__add_volume_directory()
+        # self.__ask_db_cache_size()
         self.__set_smtp_config()
         # Generate config of step 2
         self.__config_step_two()
@@ -491,6 +407,6 @@ class ConfigAntecedent:
 
         self.run_docker_compose()
         time.sleep(30)
-        self.__db_restore()
+
         time.sleep(30)
         self.__rest_webserver()
